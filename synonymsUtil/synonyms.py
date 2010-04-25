@@ -1,0 +1,1 @@
+synonyms = {'cafeteria':'restaurant', 'daycare':'preschool'}

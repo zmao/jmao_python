@@ -1,6 +1,7 @@
 from PorterStemmer import PorterStemmer
+from stopwordsUtil.stopwords import stopWords
+from synonymsUtil.synonyms import synonyms
 
-stopWords = open('english.stop', 'r').read().split()
 PUNCTUATION = ",. \n\t\\\"'][#*:?!;"
 
 def getQuestionKeywords(question):
@@ -16,6 +17,9 @@ def getQuestionKeywords(question):
 
     >>> getQuestionKeywords('Can someone help with a preschool around potomac?')
     ['potomac', 'preschool']
+
+    >>> getQuestionKeywords('What is the best cafeteria around potomac?')
+    ['potomac', 'restaurant']
 
     """
 
@@ -34,6 +38,9 @@ def getQuestionKeywords(question):
     #stem the keywords
     stemmer = PorterStemmer()
     keywordList = [stemmer.stem(keyword,0,len(keyword)-1) for keyword in keywordList]
+
+    #take care of synonyms
+    keywordList = [synonyms[keyword] if keyword in synonyms else keyword for keyword in keywordList ]
 
     #remove duplicates
     keywordList = list(set(keywordList))
